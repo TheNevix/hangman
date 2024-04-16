@@ -170,3 +170,12 @@ pub fn print_hangman_phase(phase: &u32, stdout: &mut StandardStream){
     stdout.reset().unwrap();
 }
 
+pub fn print_lost_text(word_to_guess: &String, stdout: &mut StandardStream){
+    let text = format!("You ran out of guesses and lost! The word was '{}'", word_to_guess);
+    print_colored_text(ConsoleLine { text: text, color: Color::Red }, stdout);
+}
+
+pub fn print_win_text(word_to_guess: &String, amount_of_guesses: &u32, stdout: &mut StandardStream){
+    let text = format!("You win! The word is '{}'. You got the anwser in {} guesses!", word_to_guess, amount_of_guesses);
+    print_colored_text(ConsoleLine { text: text, color: Color::Green }, stdout);
+}

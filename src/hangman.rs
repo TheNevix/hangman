@@ -2,7 +2,7 @@ use std::fs;
 use rand::seq::SliceRandom;
 use rand::{thread_rng};
 use termcolor::StandardStream;
-use crate::console_line::{self, print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_start_game, print_stripes_by_length};
+use crate::console_line::{self, print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_lost_text, print_start_game, print_stripes_by_length, print_win_text};
 use std::error::Error;
 use std::io;
 
@@ -21,18 +21,15 @@ pub fn play_game(stdout: &mut StandardStream){
     let max_incorrect_guesses: u32 = 11;
     let mut incorrect_letters_guessed: Vec<char> = vec![];
     let mut correct_letters_guessed: Vec<char> = vec![];
+    let mut letters_guessed: u32 = 0;
 
     let word_to_guess_vec: Vec<char> = word_to_guess.word.chars().collect();
-
-    for char in &word_to_guess_vec {
-        println!("{}", char);
-    }
-
+    
     loop{
         print_stripes_by_length(word_to_guess.length, &correct_letters_guessed, &word_to_guess_vec, stdout);
         print_ask_for_guess(&amount_of_guesses, stdout);
 
-        println!("{}", word_to_guess.word);
+        //println!("{}", word_to_guess.word);
 
         //get user input char
         let entered_char = ask_guess().unwrap();
@@ -42,6 +39,11 @@ pub fn play_game(stdout: &mut StandardStream){
 
         if char_found {
             //tell user that they found a letter
+            for char in &word_to_guess_vec {
+                if &entered_char == char{
+                    letters_guessed = letters_guessed + 1;
+                }
+            }
             print_guess_found(&entered_char, stdout);
             correct_letters_guessed.push(entered_char);
         } 
@@ -53,11 +55,21 @@ pub fn play_game(stdout: &mut StandardStream){
         }
 
         //draw hangman
-        print_hangman_phase(&amount_of_incorrect_guesses, stdout)
+        print_hangman_phase(&amount_of_incorrect_guesses, stdout);
 
         //check if 11 wrong guesses
-
+        if amount_of_incorrect_guesses == max_incorrect_guesses {
+            //print you lost
+            //info to play another game
+            print_lost_text(&word_to_guess.word, stdout);
+            break;
+        }
+        
         //check if chars are guessed
+        if letters_guessed == word_to_guess.length {
+            print_win_text(&word_to_guess.word, &amount_of_guesses, stdout);
+            break;
+        }
     }
 
     
