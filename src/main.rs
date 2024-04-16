@@ -3,13 +3,41 @@ use termcolor::{Color, StandardStream, ColorChoice };
 use std::io;
 
 mod console_line;
+mod hangman;
 
 
 fn main() {
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
-    console_line::print_colored_text(ConsoleLine { text: String::from("Welcome to Nevix's version of hangman!"), color: Color::Red }, &mut stdout);
-    println!("");
+    
+    console_line::print_start_screen(&mut stdout);
 
+    let mut input = String::new();
+
+    loop{
+        input.clear();
+        //wait for either play or command input
+        match io::stdin()
+        .read_line(&mut input) {
+            Ok(_) => {
+                let input = input.trim();
+                if input == "play" || input == "info" {
+                    break;
+                }
+                else{
+                    //error
+                }
+            }
+            Err(_) => {
+
+            }
+        }
+    }
+
+    if input.trim() == "play" {
+        hangman::play_game(&mut stdout);
+    }
+
+    
 
 
 
