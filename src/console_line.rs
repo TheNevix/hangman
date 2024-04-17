@@ -33,7 +33,7 @@ pub fn print_info_screen(stdout: &mut StandardStream){
     print_colored_text(ConsoleLine { text: String::from("Hangman is a simple word guessing game where you need guess the word before the hangman has been completed."), color: Color::Red }, stdout);
     print_colored_text(ConsoleLine { text: String::from("You have a certain amount of guesses, all words are English words!"), color: Color::Red }, stdout);
     println!("");
-    print_colored_text(ConsoleLine { text: String::from("Type 'play' to start or 'return' to return to the main menu."), color: Color::Red }, stdout);
+    print_colored_text(ConsoleLine { text: String::from("Type 'play' to start."), color: Color::Red }, stdout);
 
 }
 
@@ -178,4 +178,9 @@ pub fn print_lost_text(word_to_guess: &String, stdout: &mut StandardStream){
 pub fn print_win_text(word_to_guess: &String, amount_of_guesses: &u32, stdout: &mut StandardStream){
     let text = format!("You win! The word is '{}'. You got the anwser in {} guesses!", word_to_guess, amount_of_guesses);
     print_colored_text(ConsoleLine { text: text, color: Color::Green }, stdout);
+}
+
+pub fn print_ask_another_game(stdout: &mut StandardStream){
+    print_colored_text(ConsoleLine { text: String::from("Would you like to play another game of hangman?"), color: Color::Red }, stdout);
+    print_colored_text(ConsoleLine { text: String::from("Type 'yes' to play another game of hangman and 'no' to quit."), color: Color::Red }, stdout);
 }

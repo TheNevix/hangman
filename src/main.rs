@@ -1,4 +1,4 @@
-use crate::console_line::ConsoleLine;
+use crate::console_line::{print_ask_another_game, print_info_screen, ConsoleLine};
 use termcolor::{Color, StandardStream, ColorChoice };
 use std::io;
 
@@ -34,7 +34,27 @@ fn main() {
     }
 
     if input.trim() == "play" {
-        hangman::play_game(&mut stdout);
+        play_hangman_game(&mut stdout);
+    }
+    else if input.trim() == "info" {
+        console_line::print_info_screen(&mut stdout);
+        let mut input = String::new();
+        match io::stdin()
+        .read_line(&mut input) {
+            Ok(_) => {
+                let input = input.trim();
+                if input == "play" {
+                    play_hangman_game(&mut stdout);
+                }
+                else{
+                    //error
+                }
+            }
+            Err(_) => {
+
+            }
+        }
+        
     }
 
     
@@ -46,4 +66,32 @@ fn main() {
     println!("Press Enter to exit...");
     let mut _input = String::new();
     io::stdin().read_line(&mut _input).expect("Failed to read input");
+}
+
+fn play_hangman_game(stdout: &mut StandardStream){
+    loop{
+        hangman::play_game(stdout);
+
+        //ask to play another game? check for 'yes' or 'no', with no quiting
+        print_ask_another_game(stdout);
+
+        let mut input = String::new();
+        match io::stdin()
+        .read_line(&mut input) 
+        {
+            Ok(_) => 
+            {
+                let input = input.trim();
+                if input == "no" {
+                    break;
+                }
+                else{
+                    //error
+                }
+            }
+            Err(_) => {
+
+            }
+        }
+    }
 }
