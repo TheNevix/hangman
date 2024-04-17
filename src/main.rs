@@ -1,5 +1,5 @@
-use crate::console_line::{print_ask_another_game, print_info_screen, ConsoleLine};
-use termcolor::{Color, StandardStream, ColorChoice };
+use crate::console_line::print_ask_another_game;
+use termcolor::{StandardStream, ColorChoice };
 use std::io;
 
 mod console_line;
@@ -10,7 +10,6 @@ fn main() {
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
     
     console_line::print_start_screen(&mut stdout);
-
     let mut input = String::new();
 
     loop{
@@ -54,12 +53,7 @@ fn main() {
 
             }
         }
-        
     }
-
-    
-
-
 
     //dont close
     //exit

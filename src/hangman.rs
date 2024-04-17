@@ -1,10 +1,9 @@
 use rand::seq::SliceRandom;
-use rand::{thread_rng};
+use rand::thread_rng;
 use termcolor::StandardStream;
-use crate::console_line::{self, print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_lost_text, print_start_game, print_stripes_by_length, print_win_text};
+use crate::console_line::{print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_lost_text, print_stripes_by_length, print_win_text};
 use std::error::Error;
 use std::io;
-
 use self::word_to_guess::WordToGuess;
 use self::wordlist::WordList;
 
@@ -14,25 +13,23 @@ mod word_to_guess;
 pub fn play_game(stdout: &mut StandardStream){
     
     let word_to_guess = generate_word_to_guess().unwrap();
-
     let mut amount_of_guesses: u32 = 1;
     let mut amount_of_incorrect_guesses = 0;
     let max_incorrect_guesses: u32 = 11;
     let mut incorrect_letters_guessed: Vec<char> = vec![];
     let mut correct_letters_guessed: Vec<char> = vec![];
     let mut letters_guessed: u32 = 0;
-
     let word_to_guess_vec: Vec<char> = word_to_guess.word.chars().collect();
 
     loop{
-        print_stripes_by_length(word_to_guess.length, &correct_letters_guessed, &word_to_guess_vec, stdout);
+        print_stripes_by_length(&correct_letters_guessed, &word_to_guess_vec, stdout);
         print_ask_for_guess(&amount_of_guesses, stdout);
 
         //println!("{}", word_to_guess.word);
 
         //get user input char
         let entered_char = ask_guess().unwrap();
-        let mut char_found: bool = word_to_guess_vec.contains(&entered_char);
+        let char_found: bool = word_to_guess_vec.contains(&entered_char);
 
         amount_of_guesses = amount_of_guesses + 1;
 
@@ -70,10 +67,6 @@ pub fn play_game(stdout: &mut StandardStream){
             break;
         }
     }
-
-    
-
-    
 }
 
 

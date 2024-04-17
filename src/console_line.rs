@@ -13,13 +13,6 @@ pub fn print_colored_text(line: ConsoleLine, stdout: &mut StandardStream){
     stdout.reset().unwrap();
 }
 
-//fn to print colored text
-pub fn print_underlinded_colored_text(line: ConsoleLine, stdout: &mut StandardStream){
-    stdout.set_color(ColorSpec::new().set_fg(Some(line.color)).set_underline(true)).unwrap();
-    println!("{}", line.text);
-    stdout.reset().unwrap();
-}
-
 //text to print at the start
 pub fn print_start_screen(stdout: &mut StandardStream){
     print_colored_text(ConsoleLine { text: String::from("Welcome to Nevix's version of hangman!"), color: Color::Red }, stdout);
@@ -37,7 +30,7 @@ pub fn print_info_screen(stdout: &mut StandardStream){
 
 }
 
-pub fn print_stripes_by_length(mut length: u32, guessed_chars: &Vec<char>, word_to_guess: &Vec<char>, stdout: &mut StandardStream) {
+pub fn print_stripes_by_length(guessed_chars: &Vec<char>, word_to_guess: &Vec<char>, stdout: &mut StandardStream) {
     let mut stripes_to_print = String::new();
 
     for char in word_to_guess {
@@ -52,12 +45,6 @@ pub fn print_stripes_by_length(mut length: u32, guessed_chars: &Vec<char>, word_
     }
 
     print_colored_text(ConsoleLine { text: stripes_to_print, color: Color::Red }, stdout)
-}
-
-pub fn print_start_game(length: u32, stdout: &mut StandardStream){
-    print_colored_text(ConsoleLine { text: String::from("Starting a new game ..."), color: Color::Red }, stdout);
-    let text = format!("Game created. Your word has {} letters", length);
-    print_colored_text(ConsoleLine { text: text, color: Color::Red }, stdout);
 }
 
 pub fn print_ask_for_guess(guess_count: &u32, stdout: &mut StandardStream){
