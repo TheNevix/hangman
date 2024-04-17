@@ -1,7 +1,7 @@
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use termcolor::StandardStream;
-use crate::console_line::{print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_lost_text, print_stripes_by_length, print_win_text};
+use crate::console_line::{print_alr_guessed_letter, print_ask_for_guess, print_guess_found, print_guess_not_found, print_hangman_phase, print_lost_text, print_stripes_by_length, print_win_text};
 use std::error::Error;
 use std::io;
 use self::word_to_guess::WordToGuess;
@@ -30,6 +30,12 @@ pub fn play_game(stdout: &mut StandardStream){
         //get user input char
         let entered_char = ask_guess().unwrap();
         let char_found: bool = word_to_guess_vec.contains(&entered_char);
+
+        //check if entered_char has alr been guessed
+        if (incorrect_letters_guessed.contains(&entered_char)) == true || (correct_letters_guessed.contains(&entered_char)) == true{
+            print_alr_guessed_letter(stdout);
+            continue;
+        }
 
         amount_of_guesses = amount_of_guesses + 1;
 
@@ -87,7 +93,7 @@ fn ask_guess() -> Result<char, Box<dyn Error>> {
     //create input var
     let mut result = String::new();
 
-        // Read a line of input from the user
+    // Read a line of input from the user
     io::stdin().read_line(&mut result).map_err(|e| e)?; // If an error occurs, return it
 
     // Attempt to parse the first character from the input

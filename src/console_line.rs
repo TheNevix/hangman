@@ -171,3 +171,7 @@ pub fn print_ask_another_game(stdout: &mut StandardStream){
     print_colored_text(ConsoleLine { text: String::from("Would you like to play another game of hangman?"), color: Color::Red }, stdout);
     print_colored_text(ConsoleLine { text: String::from("Type 'yes' to play another game of hangman and 'no' to quit."), color: Color::Red }, stdout);
 }
+
+pub fn print_alr_guessed_letter(stdout: &mut StandardStream){
+    print_colored_text(ConsoleLine { text: String::from("You already guessed that letter! Try to guess a different letter!"), color: Color::Red }, stdout);
+}
