@@ -1,4 +1,3 @@
-use std::fs;
 use rand::seq::SliceRandom;
 use rand::{thread_rng};
 use termcolor::StandardStream;
@@ -24,7 +23,7 @@ pub fn play_game(stdout: &mut StandardStream){
     let mut letters_guessed: u32 = 0;
 
     let word_to_guess_vec: Vec<char> = word_to_guess.word.chars().collect();
-    
+
     loop{
         print_stripes_by_length(word_to_guess.length, &correct_letters_guessed, &word_to_guess_vec, stdout);
         print_ask_for_guess(&amount_of_guesses, stdout);
@@ -80,7 +79,7 @@ pub fn play_game(stdout: &mut StandardStream){
 
 fn generate_word_to_guess() -> Result<WordToGuess, Box<dyn Error>> {
     // Read the words file
-    let data = fs::read_to_string("src/words.json")?;
+    let data = include_str!("words.json");
     let words: WordList = serde_json::from_str(&data)?;
 
     // Get a random word from the list
